@@ -1,13 +1,16 @@
 package com.applex.floatingreactions.flyingReactionsView
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.util.Log
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import com.applex.floatingreactions.R
 
 
@@ -108,9 +111,9 @@ class ZeroGravityAnimation {
                     ) else mDestinationDirection
                 val startingPoints: IntArray = generator.getPointsInDirection(activity, origin)
                 val endPoints: IntArray = generator.getPointsInDirection(activity, destination)
-                val bitmap = BitmapFactory.decodeResource(activity.resources, R.drawable.ic_baseline_alarm_24)
+                val bitmap = getBitmapFromXml(activity, R.drawable.ic_baseline_alarm_24)
                 val scaledBitmap = Bitmap.createScaledBitmap(
-                    bitmap,
+                    bitmap!!,
                     (bitmap.width * mScalingFactor).toInt(),
                     (bitmap.height * mScalingFactor).toInt(), false
                 )
@@ -176,6 +179,23 @@ class ZeroGravityAnimation {
                 "Count was not provided, animation was not started"
             )
         }
+    }
+
+    private fun getBitmapFromXml(context: Context, drawableRes: Int): Bitmap? {
+        val drawable = ContextCompat.getDrawable(context, drawableRes)
+        val canvas = Canvas()
+        if (drawable != null) {
+            val bitmap = Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+            canvas.setBitmap(bitmap)
+            drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+            drawable.draw(canvas)
+            return bitmap
+        }
+        return null
     }
 
     companion object {
