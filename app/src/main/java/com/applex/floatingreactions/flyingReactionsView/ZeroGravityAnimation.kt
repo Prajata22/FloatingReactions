@@ -111,8 +111,8 @@ class ZeroGravityAnimation {
                 val bitmap = BitmapFactory.decodeResource(activity.resources, R.drawable.ic_baseline_alarm_24)
                 val scaledBitmap = Bitmap.createScaledBitmap(
                     bitmap,
-                    (40 * mScalingFactor).toInt(),
-                    (40 * mScalingFactor).toInt(), false
+                    (bitmap.width * mScalingFactor).toInt(),
+                    (bitmap.height * mScalingFactor).toInt(), false
                 )
                 when (origin) {
                     Direction.LEFT -> startingPoints[0] -= scaledBitmap.width
