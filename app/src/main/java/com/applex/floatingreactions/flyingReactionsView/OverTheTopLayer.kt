@@ -1,6 +1,5 @@
 package com.applex.floatingreactions.flyingReactionsView
 
-import android.R
 import android.app.Activity
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -12,6 +11,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.applex.floatingreactions.R
 import java.lang.ref.WeakReference
 
 
@@ -117,14 +117,17 @@ class OverTheTopLayer {
             }
             val imageView = ImageView(activity)
             imageView.setImageBitmap(mBitmap)
-            val minWidth = mBitmap!!.width
-            val minHeight = mBitmap!!.height
+            val minWidth = mBitmap!!.width + 50
+            val minHeight = mBitmap!!.height + 50
+
             imageView.measure(
-                View.MeasureSpec.makeMeasureSpec(minWidth, View.MeasureSpec.AT_MOST),
-                View.MeasureSpec.makeMeasureSpec(minHeight, View.MeasureSpec.AT_MOST)
+                View.MeasureSpec.makeMeasureSpec(minWidth + 50, View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(minHeight + 50, View.MeasureSpec.AT_MOST)
             )
-            var params = imageView.layoutParams as FrameLayout.LayoutParams
-            if (params == null) {
+            var params: FrameLayout.LayoutParams? = null
+            if(imageView.layoutParams == null) {
+//            var params = imageView.layoutParams as FrameLayout.LayoutParams
+//            if (params == null) {
                 params = FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.WRAP_CONTENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -134,7 +137,7 @@ class OverTheTopLayer {
             }
             val xPosition = mDrawLocation[0]
             val yPosition = mDrawLocation[1]
-            params.width = minWidth
+            params!!.width = minWidth
             params.height = minHeight
             params.leftMargin = xPosition
             params.topMargin = yPosition
@@ -193,6 +196,14 @@ class OverTheTopLayer {
         if (mCreatedOttLayer != null) {
             val drawnImageView = mCreatedOttLayer!!.getChildAt(0) as ImageView
             drawnImageView.startAnimation(animation)
+        }
+    }
+
+    fun scaleAndFadeAnimation(duration: Long) {
+        if (mCreatedOttLayer != null) {
+            val drawnImageView = mCreatedOttLayer!!.getChildAt(0) as ImageView
+            drawnImageView.animate().scaleX(0.5f).scaleY(0.5f).setDuration(duration).start()
+            drawnImageView.animate().alpha(0f).setDuration(duration).start()
         }
     }
 }

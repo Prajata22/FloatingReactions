@@ -13,14 +13,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedState)
         setContentView(R.layout.activity_main)
         emoji_one()
-        emoji_two()
-        emoji_three()
+//        emoji_two()
+//        emoji_three()
     }
 
     private fun flyEmoji(resId: Int) {
         val animation = ZeroGravityAnimation()
         animation.setCount(1)
-        animation.setScalingFactor(0.2f)
+        animation.setScalingFactor(0.3f)
         animation.setOriginationDirection(Direction.BOTTOM)
         animation.setDestinationDirection(Direction.TOP)
         animation.setImage(resId)
@@ -37,7 +37,12 @@ class MainActivity : AppCompatActivity() {
     private fun emoji_one() {
         // You can change the number of emojis that will be flying on screen
         for (i in 0..4) {
-            flyEmoji(R.drawable.ic_baseline_alarm_24)
+            flyEmoji(R.drawable.ic_pranam)
+            flyEmoji(R.drawable.ic_dhak)
+            flyEmoji(R.drawable.ic_dhup)
+            flyEmoji(R.drawable.ic_flower)
+            flyEmoji(R.drawable.ic_ghanta)
+            flyEmoji(R.drawable.ic_diya)
         }
     }
     // You can change the number of emojis that will be flying on screen

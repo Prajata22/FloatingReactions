@@ -3,7 +3,6 @@ package com.applex.floatingreactions.flyingReactionsView
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.Log
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import com.applex.floatingreactions.R
 
 
 class ZeroGravityAnimation {
@@ -111,7 +109,7 @@ class ZeroGravityAnimation {
                     ) else mDestinationDirection
                 val startingPoints: IntArray = generator.getPointsInDirection(activity, origin)
                 val endPoints: IntArray = generator.getPointsInDirection(activity, destination)
-                val bitmap = getBitmapFromXml(activity, R.drawable.ic_baseline_alarm_24)
+                val bitmap = getBitmapFromXml(activity, mImageResId)
                 val scaledBitmap = Bitmap.createScaledBitmap(
                     bitmap!!,
                     (bitmap.width * mScalingFactor).toInt(),
@@ -135,7 +133,7 @@ class ZeroGravityAnimation {
                 val ottLayout: FrameLayout = layer.with(activity)
                     .scale(mScalingFactor)
                     .attachTo(ottParent)
-                    .setBitmap(scaledBitmap, startingPoints)
+                    .setBitmap(bitmap, startingPoints)
                     .create()!!
                 when (origin) {
                     Direction.LEFT -> {}
@@ -158,6 +156,8 @@ class ZeroGravityAnimation {
                                 mAnimationListener!!.onAnimationStart(animation)
                             }
                         }
+
+                        layer.scaleAndFadeAnimation(duration.toLong())
                     }
 
                     override fun onAnimationEnd(animation: Animation) {
@@ -167,10 +167,12 @@ class ZeroGravityAnimation {
                                 mAnimationListener!!.onAnimationEnd(animation)
                             }
                         }
+                        play(activity, ottParent)
                     }
 
                     override fun onAnimationRepeat(animation: Animation) {}
                 })
+
                 layer.applyAnimation(animation)
             }
         } else {
